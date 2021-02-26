@@ -20,7 +20,7 @@
 <body>
 <h1 align="center">Project Submitted Successfully!</h1>
 <div align="center">
-<button type="button" class="btn btn-primary btn-lg" onClick="window.location.href='status.php'">Status</button>
+<button type="button" style="background-color:rgb(207, 146, 43); border:none" class="btn btn-primary btn-lg" onClick="window.location.href='status.php'">Status</button>
 </div>
 
 </body>

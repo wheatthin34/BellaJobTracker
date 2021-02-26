@@ -1,9 +1,9 @@
 <?php
 // Connection to live database
-$connection = mysqli_connect('localhost', 'root', 'U6dvtx40FrvG', 'bellaprojects');
+// $connection = mysqli_connect('localhost', 'root', 'U6dvtx40FrvG', 'bellaprojects');
 
 // Connection to local database
-//$connection = mysqli_connect('localhost', 'wheatley', 'password', 'bellaprojects');
+$connection = mysqli_connect('localhost', 'wheatley', 'password', 'bellaprojects');
 
 if (!$connection){
     die("Database Connection Failed" . mysqli_error());

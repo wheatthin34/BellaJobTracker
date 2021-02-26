@@ -49,7 +49,7 @@ $(document).ready(function () {
 								<div class="form-group">
 								<textarea rows="4" placeholder="Notes..." cols="50" name="notes" id="notes"></textarea>
 								</div>
-                            <button type="submit" style="background-color:rgb(209, 154, 14); border:none" id="submitbtn" class="btn btn-primary btn-lg">Submit</button>
+                            <button type="submit" style="background-color:rgb(207, 146, 43); border:none" id="submitbtn" class="btn btn-primary btn-lg">Submit</button>
                         </form>
                     </div>
                 </div>

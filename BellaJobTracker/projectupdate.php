@@ -232,9 +232,11 @@ while ($result = mysqli_fetch_array($statusquery, MYSQLI_ASSOC)){
 							<div class="form-group">
 								<textarea rows="4" cols="50" name="notes" id="notes"><?php echo $notes;?></textarea>
 							</div>
-                            <button type="submit" style="background-color:rgb(209, 154, 14); border:none" id="submitbtn" class="btn btn-primary btn-lg">Update</button>
-							<button type="button" style="background-color:rgb(209, 154, 14); border:none" class="btn btn-primary btn-lg" onClick="window.location.href='status.php'">Opened</button>
+                            <button type="submit" style="background-color:rgb(207, 146, 43); border:none" id="submitbtn" class="btn btn-primary btn-lg">Update</button>
+							<button type="button" style="background-color:rgb(207, 146, 43); border:none" class="btn btn-primary btn-lg" onClick="window.location.href='status.php'">Opened</button>
 							<button type="button" class="btn btn-danger btn-lg" onClick="window.location.href='<?php echo "deleteproject.php?jobid=$rcvdjobid" ?>'">Delete</button>
+							<br>
+							<button style="margin: 3px 0px 0px 0px; display:none" id="image" class="btn btn-info btn-lg">Add Image</button>
                         </form>				
                     </div>
                 </div>

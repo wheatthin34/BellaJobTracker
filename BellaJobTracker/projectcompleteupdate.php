@@ -42,6 +42,8 @@ $statusquery = mysqli_query($connection, "SELECT a.*, b.*
 							where a.jobid = '$rcvdjobid'");
 
 while ($result = mysqli_fetch_array($statusquery, MYSQLI_ASSOC)){
+
+	$reworkflag = $result['reworkflag'];
 	
 	$jobid = $result['jobid'];
 	$jobname = $result['jobname'];
@@ -72,8 +74,9 @@ while ($result = mysqli_fetch_array($statusquery, MYSQLI_ASSOC)){
 
 	$notes = $result['notes'];
 }
-
 ?>
+
+
 
 <body>
 
@@ -87,7 +90,7 @@ while ($result = mysqli_fetch_array($statusquery, MYSQLI_ASSOC)){
 						<div class="row">
 							<div class="col"><h4>Install Date: </h4></div> <div class="col"><h4><?php echo $formatdate ?> </h4></div>
 						</div>	
-                        <form enctype="multipart/form-data" id="projectupdateform" action="projectupdated.php" method="post" class="justify-content-center">
+                        <form enctype="multipart/form-data" id="projectupdateform" action=<?php if ($reworkflag == 1){ echo '"reworkprojectupdated.php""'; } else {echo '"projectupdated.php"';} ?> method="post" class="justify-content-center">
 							<p><input type="hidden" name="jobid" value="<?php echo $rcvdjobid ?>"/></p>
 							<div class="row">
 								<div class="col">
@@ -149,13 +152,13 @@ while ($result = mysqli_fetch_array($statusquery, MYSQLI_ASSOC)){
 									<?php echo $materialdate; ?>
 								</div>
 							</div>
-							<div class="row">
+							<div class="row" <?php if ($reworkflag == 1){ echo 'style="display:none;"'; } ?>>
 								<div class="col">
 									<div class="form-group">
 										<label>Sink On Hand:</label>
 									</div>	
 								</div>
-								<div class="col">
+								<div class="col"> 
 									<div class="form-group">
 										<?php if ($sinkbit == 1){ ?>
 										<input type="checkbox" checked value="1" class="form-control" name="sinkbit" id="sinkbit">
@@ -209,7 +212,7 @@ while ($result = mysqli_fetch_array($statusquery, MYSQLI_ASSOC)){
 									<?php echo $installeddate; ?>
 								</div>
 							</div>
-							<div class="row">
+							<div class="row"  <?php if ($reworkflag == 1){ echo 'style="display:none;"'; } ?>>
 								<div class="col">
 									<div class="form-group">
 										<label>Billed:</label>
@@ -232,10 +235,12 @@ while ($result = mysqli_fetch_array($statusquery, MYSQLI_ASSOC)){
 							<div class="form-group">
 								<textarea rows="4" cols="50" name="notes" id="notes"><?php echo $notes;?></textarea>
 							</div>
-                            <button type="submit" style="background-color:rgb(209, 154, 14); border:none" id="submitbtn" class="btn btn-primary btn-lg">Update</button>
-							<button type="button" style="background-color:rgb(209, 154, 14); border:none" class="btn btn-primary btn-lg" onClick="window.location.href='completesamples.php'">Completed</button>
+                            <button type="submit" style="background-color:rgb(207, 146, 43); border:none" id="submitbtn" class="btn btn-primary btn-lg">Update</button>
+							<button type="button" style="background-color:rgb(207, 146, 43); border:none" class="btn btn-primary btn-lg" onClick="window.location.href='completeproject.php'">Completed</button>
 							<button type="button" class="btn btn-secondary btn-lg" onClick="window.location.href='<?php echo "reworkproject.php?jobid=$rcvdjobid" ?>'">Rework</button>
 							<button type="button" class="btn btn-danger btn-lg" onClick="window.location.href='<?php echo "deleteproject.php?jobid=$rcvdjobid" ?>'">Delete</button>
+							<br>
+							<button style="margin: 3px 0px 0px 0px; display:none" id="image" class="btn btn-info btn-lg">Add Image</button>
                         </form>					
                     </div>
                 </div>

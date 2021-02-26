@@ -77,13 +77,13 @@ if((strlen($emailbody) >= 1)){
 //*********************************************EMAIL ALERT CONFIG HERE***********************************
 	require_once "Mail.php";
 
-	$from = "emernst@venosaprecast.com";
+	$from = "mwheatley@venosaprecast.com";
 	$to = 'mwheatley@venosaprecast.com';
 
 	$host = "smtp.office365.com";
 	$port = "587";
-	$username = 'emernst@venosaprecast.com';
-	$password = '4Hm*cvEVr0gA';
+	$username = 'mwheatley@venosaprecast.com';
+	$password = 'Wheatthin34';
 
 	$subject = "Late Projects";
 	$body = "Outstanding Projects: \n\n" . $emailbody . "\nPlease go here to view open orders: http://team.bellastonedesigns.com/status.php";

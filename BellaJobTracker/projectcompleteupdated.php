@@ -99,7 +99,7 @@ mysqli_close($connection);
                 <div class="col-xl-5 col-lg-6 col-md-8 col-sm-10 mx-auto text-center form p-1">
                     <div class="px-1">
 					<h3>Project Updated!</h3>
-					<button type="button" style="background-color:rgb(209, 154, 14); border:none" class="btn btn-primary btn-lg" onClick="window.location.href='completeproject.php'">Completed</button>
+					<button type="button" style="background-color:rgb(207, 146, 43); border:none" class="btn btn-primary btn-lg" onClick="window.location.href='completeproject.php'">Completed</button>
                     </div>
                 </div>
             </div>

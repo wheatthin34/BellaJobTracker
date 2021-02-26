@@ -45,11 +45,14 @@ $(document).ready(function () {
 			<?php
 			require('connect.php');
 
-			$statusquery = mysqli_query($connection, "SELECT a.jobid, b.jobname, a.templatebit, a.workorderbit, a.materialbit, a.sinkbit, a.fabbit, a.installedbit, a.billedbit, b.installdate, b.reworkflag, b.jobflag
-										from projectstatus a
-										left join projectdetails b
-										on a.jobid = b.jobid
-										where b.jobflag = 1 and a.billedbit = 1");
+			$statusquery = mysqli_query($connection, "SELECT a.jobid, b.jobname, a.templatebit, a.workorderbit, a.materialbit, a.sinkbit, a.fabbit, a.installedbit, a.billedbit, b.installdate, b.reworkflag, b.jobflag,
+													SUM(a.billedbit + a.templatebit + a.workorderbit + a.materialbit + a.sinkbit + a.fabbit + a.installedbit) AS Total
+													from projectstatus a
+													left join projectdetails b
+													on a.jobid = b.jobid
+													where  b.jobflag = 1
+													GROUP BY a.jobid
+													HAVING Total = 7");
 
 			while ($result = mysqli_fetch_array($statusquery, MYSQLI_ASSOC)){
 				
@@ -69,17 +72,17 @@ $(document).ready(function () {
 				$jobflag = $result['jobflag'];
 				
 				if($reworkflag == 1 and $jobflag == 1){
-					$var = 'reworkupdate.php?jobid=';
-					$sumstatus = $templatebit + $workorderbit + $materialbit + $sinkbit + $fabbit + $installedbit + $billedbit;
+					$var = 'projectcompleteupdate.php?jobid=';
+					$sumstatus = $templatebit + $workorderbit + $materialbit + $fabbit + $installedbit;
 					if ($sumstatus > 0) {
-						$statuspercent = round(($sumstatus/6)*100);
+						$statuspercent = round(($sumstatus/5)*100);
 					}
 					else {
 						$statuspercent = 0;
 					}
 				}
 				else{
-					$var = 'projectupdate.php?jobid=';
+					$var = 'projectcompleteupdate.php?jobid=';
 					$sumstatus = $templatebit + $workorderbit + $materialbit + $sinkbit + $fabbit + $installedbit + $billedbit;
 					if ($sumstatus > 0) {
 						$statuspercent = round(($sumstatus/7)*100);
@@ -113,7 +116,7 @@ $(document).ready(function () {
 </div>
 
 <div align="center">
-<button type="button" style="background-color:rgb(209, 154, 14); border:none" class="btn btn-primary btn-lg" onClick="window.location.href='index.html'">Home</button>
+<button type="button" style="background-color:rgb(207, 146, 43); border:none" class="btn btn-primary btn-lg" onClick="window.location.href='index.html'">Home</button>
 </div>
 
 
