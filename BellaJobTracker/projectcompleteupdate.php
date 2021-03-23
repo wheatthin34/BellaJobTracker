@@ -17,6 +17,10 @@ $(document).ready(function () {
     });
 });
 
+function deleteProject(){
+	return confirm("Are you sure you want to delete this project?");
+}
+
 </script>
 
 <div align="center" class="logo-image" id="spacetaker">
@@ -35,10 +39,12 @@ require('connect.php');
 
 $rcvdjobid = htmlspecialchars($_GET["jobid"]);
 
-$statusquery = mysqli_query($connection, "SELECT a.*, b.*
+$statusquery = mysqli_query($connection, "SELECT a.*, b.*, c.*
 							from projectstatus a
 							left join projectdetails b
 							on a.jobid = b.jobid
+							left join images c
+							on a.jobid = c.jobid
 							where a.jobid = '$rcvdjobid'");
 
 while ($result = mysqli_fetch_array($statusquery, MYSQLI_ASSOC)){
@@ -73,6 +79,10 @@ while ($result = mysqli_fetch_array($statusquery, MYSQLI_ASSOC)){
 	$billeddate = $result['billeddate'];
 
 	$notes = $result['notes'];
+
+	$imageflag = $result['imageflag'];
+	$imagename = $result['imagename'];
+	$imgsrc = 'imagename/' . $imagename;
 }
 ?>
 
@@ -238,9 +248,19 @@ while ($result = mysqli_fetch_array($statusquery, MYSQLI_ASSOC)){
                             <button type="submit" style="background-color:rgb(207, 146, 43); border:none" id="submitbtn" class="btn btn-primary btn-lg">Update</button>
 							<button type="button" style="background-color:rgb(207, 146, 43); border:none" class="btn btn-primary btn-lg" onClick="window.location.href='completeproject.php'">Completed</button>
 							<button type="button" class="btn btn-secondary btn-lg" onClick="window.location.href='<?php echo "reworkproject.php?jobid=$rcvdjobid" ?>'">Rework</button>
-							<button type="button" class="btn btn-danger btn-lg" onClick="window.location.href='<?php echo "deleteproject.php?jobid=$rcvdjobid" ?>'">Delete</button>
+							<a href='<?php echo "deleteproject.php?jobid=$rcvdjobid" ?>' type="button" class="btn btn-danger btn-lg" onClick="return deleteProject()">Delete</a>
 							<br>
-							<button style="margin: 3px 0px 0px 0px; display:none" id="image" class="btn btn-info btn-lg">Add Image</button>
+							<p class="btn btn-lg" style="margin: 0px 0px 0px 0px; cursor: default">Upload Image(s):</p>
+									<div class="form-group">
+										<?php if ($imageflag == 1){ ?>
+										<input type="hidden" name="MAX_FILE_SIZE" value="10000000" />
+										<img src="<?php echo $imgsrc; ?>" class="img-thumbnail" alt="job image">
+										<input style="padding: 0px" type="file" class="form-control btn btn-lg" name="imageflag" id="imageflag" multiple> 
+										<?php }
+										else{ ?>
+										<input type="hidden" name="MAX_FILE_SIZE" value="10000000" />
+										<input style="padding: 0px" type="file" class="form-control btn btn-lg" name="imageflag" id="imageflag" multiple>
+										<?php } ?>
                         </form>					
                     </div>
                 </div>

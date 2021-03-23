@@ -36,7 +36,8 @@ require('connect.php');
 							where a.jobid = '$jobid'");
 
 	while ($result = mysqli_fetch_array($statusquery, MYSQLI_ASSOC)){
-		
+
+		$installdate = $result['installdate'];
 		$jobname = $result['jobname'];
 		$templatedate = $result['templatedate'];
 		$workorderdate = $result['workorderdate'];
@@ -76,6 +77,17 @@ require('connect.php');
 	if (isset($_POST['notes'])){
 		$notes = $_POST['notes'];
 		$query = "UPDATE projectdetails SET notes = '$notes'
+										  WHERE jobid = '$jobid'";
+		if (!mysqli_query($connection, $query)) {
+			die('Error: ' . mysqli_error($connection));
+		}
+	}
+
+
+
+	if (isset($_POST['installdate'])){
+		$installdate = $_POST['installdate'];
+		$query = "UPDATE projectdetails SET installdate = '$installdate'
 										  WHERE jobid = '$jobid'";
 		if (!mysqli_query($connection, $query)) {
 			die('Error: ' . mysqli_error($connection));
@@ -232,6 +244,60 @@ require('connect.php');
 		}
 	}
 
+
+
+
+	$name       = $_FILES['imageflag']['name'];  
+	$temp_name  = $_FILES['imageflag']['tmp_name'];
+	//$temp_name  = '/opt/bitnami/apache2/htdocs/BellaJobTracker';
+	$savename = 'JID' . $jobid . $name;
+
+/* 	echo "job id: " . $jobid;
+	echo "<br>";
+	echo $name;
+	echo "<br>";
+	print_r('temp name: ' . $_FILES['imageflag']['tmp_name']);
+	echo "<br>";
+	print_r('size: ' . $_FILES['imageflag']['size']);
+	echo "<br>";
+	print_r($_FILES);
+	echo "<br>";
+	echo $savename;
+	echo "<br>"; 
+	 */
+	if(isset($name) and !empty($name)){
+		$location = 'imagename/';
+		if(move_uploaded_file($temp_name, $location.$savename)){
+			echo 'File uploaded successfully';
+		}
+		$query = "INSERT INTO images (imagename, imageflag, jobid, lastupdate)
+				   VALUES ('$savename', '1', '$jobid', CURRENT_TIMESTAMP)";
+									
+		if (!mysqli_query($connection, $query)) {
+			die('Error: ' . mysqli_error($connection));
+		}
+/* 		$query = "UPDATE images SET lastupdate = CURRENT_TIMESTAMP, imageflag = 1
+									  WHERE jobid = '$jobid'";
+		if (!mysqli_query($connection, $query)) {
+			die('Error: ' . mysqli_error($connection));
+		}
+		$query2 = "UPDATE images SET imagename = '$savename'
+									  WHERE jobid = '$jobid'";
+		if (!mysqli_query($connection, $query2)) {
+			die('Error: ' . mysqli_error($connection));
+		}
+		else {
+			/*do nothing*/
+	} 
+
+	
+	else {
+		//echo 'You should select a file to upload !!';
+	}
+
+
+
+	
 
 
 $query = "UPDATE projectstatus SET templatebit = '$templatebit', 

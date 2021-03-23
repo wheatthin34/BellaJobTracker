@@ -73,6 +73,18 @@ require('connect.php');
 	}
 
 
+	
+
+	if (isset($_POST['installdate'])){
+		$installdate = $_POST['installdate'];
+		$query = "UPDATE projectdetails SET installdate = '$installdate'
+										  WHERE jobid = '$jobid'";
+		if (!mysqli_query($connection, $query)) {
+			die('Error: ' . mysqli_error($connection));
+		}
+	}
+
+
 
 
 	if (isset($_POST['notes'])){
@@ -185,6 +197,26 @@ require('connect.php');
 			die('Error: ' . mysqli_error($connection));
 		}
 	}
+
+
+$name       = $_FILES['imageflag']['name'];  
+$temp_name  = $_FILES['imageflag']['tmp_name'];
+$savename = 'JID' . $jobid . $name;
+
+
+if(isset($name) and !empty($name)){
+	$location = 'imagename/';
+	if(move_uploaded_file($temp_name, $location.$savename)){
+		echo 'File uploaded successfully';
+	}
+	$query = "INSERT INTO images (imagename, imageflag, jobid, lastupdate)
+				VALUES ('$savename', '1', '$jobid', CURRENT_TIMESTAMP)";
+								
+	if (!mysqli_query($connection, $query)) {
+		die('Error: ' . mysqli_error($connection));
+	}
+}
+
 
 
 $query = "UPDATE projectstatus SET templatebit = '$templatebit', 

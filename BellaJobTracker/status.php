@@ -53,7 +53,8 @@ $(document).ready(function () {
 														on a.jobid = b.jobid
 														where  b.jobflag = 1
 														GROUP BY a.jobid
-														HAVING Total < 7");
+														HAVING Total < 7
+														ORDER BY b.installdate");
 
 			while ($result = mysqli_fetch_array($statusquery, MYSQLI_ASSOC)){
 				

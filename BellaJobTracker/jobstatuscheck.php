@@ -36,7 +36,7 @@ while ($result = mysqli_fetch_array($statusquery, MYSQLI_ASSOC)){
 	$tarinstall = date("Y-m-d", strtotime($installdate));
 	$days = strtotime($curdate) - strtotime($tarinstall);
 
-	$days = $days/86400;
+	$days = round($days/86400, 0);
 
 	if($days > -9){
 		if($days >= -7 and $templatebit == 0){

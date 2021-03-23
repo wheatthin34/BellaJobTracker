@@ -1,4 +1,5 @@
 <?php
+chdir(dirname(__FILE__));
 // Connection to live database
 // $connection = mysqli_connect('localhost', 'root', 'U6dvtx40FrvG', 'bellaprojects');
 
