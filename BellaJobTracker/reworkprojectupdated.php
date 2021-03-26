@@ -201,7 +201,8 @@ require('connect.php');
 
 $name       = $_FILES['imageflag']['name'];  
 $temp_name  = $_FILES['imageflag']['tmp_name'];
-$savename = 'JID' . $jobid . $name;
+$randomvalue = rand(10000, 99999 );
+$savename = 'JID' . $jobid . $randomvalue . $name;
 
 
 if(isset($name) and !empty($name)){

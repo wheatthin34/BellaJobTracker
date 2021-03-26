@@ -79,11 +79,14 @@ while ($result = mysqli_fetch_array($statusquery, MYSQLI_ASSOC)){
 	$billeddate = $result['billeddate'];
 
 	$notes = $result['notes'];
-
-	$imageflag = $result['imageflag'];
-	$imagename = $result['imagename'];
-	$imgsrc = 'imagename/' . $imagename;
 }
+
+$imagequery = mysqli_query($connection, "SELECT imageid, imagename, imageflag
+										 FROM images
+										 WHERE jobid = '$rcvdjobid'");
+
+
+$pagetitle = "projectcompleteupdate";
 ?>
 
 
@@ -252,15 +255,22 @@ while ($result = mysqli_fetch_array($statusquery, MYSQLI_ASSOC)){
 							<br>
 							<p class="btn btn-lg" style="margin: 0px 0px 0px 0px; cursor: default">Upload Image(s):</p>
 									<div class="form-group">
-										<?php if ($imageflag == 1){ ?>
+										<input style="padding: 0px" type="file" class="form-control btn btn-lg" name="imageflag" id="imageflag" multiple>
+										<?php 
+										while ($imageresult = mysqli_fetch_array($imagequery, MYSQLI_ASSOC)){
+										$imageid = $imageresult['imageid'];
+										$imageflag = $imageresult['imageflag'];
+										$imagename = $imageresult['imagename'];
+										$imgsrc = 'imagename/' . $imagename;
+										if ($imageflag == 1){?>
 										<input type="hidden" name="MAX_FILE_SIZE" value="10000000" />
 										<img src="<?php echo $imgsrc; ?>" class="img-thumbnail" alt="job image">
-										<input style="padding: 0px" type="file" class="form-control btn btn-lg" name="imageflag" id="imageflag" multiple> 
+										<button style="margin: 5px 0px 20px 0px"type="button" id="delbtn" class="btn btn-danger lg" onClick="window.location.href='<?php echo 'deleteImage.php?imageid=' . $imageid . '&jobid=' . $rcvdjobid . '&pagetitle=' . $pagetitle ?> '"> Delete Image </button>
 										<?php }
 										else{ ?>
 										<input type="hidden" name="MAX_FILE_SIZE" value="10000000" />
 										<input style="padding: 0px" type="file" class="form-control btn btn-lg" name="imageflag" id="imageflag" multiple>
-										<?php } ?>
+										<?php }} ?>
                         </form>					
                     </div>
                 </div>

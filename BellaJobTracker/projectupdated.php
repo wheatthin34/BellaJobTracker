@@ -250,7 +250,8 @@ require('connect.php');
 	$name       = $_FILES['imageflag']['name'];  
 	$temp_name  = $_FILES['imageflag']['tmp_name'];
 	//$temp_name  = '/opt/bitnami/apache2/htdocs/BellaJobTracker';
-	$savename = 'JID' . $jobid . $name;
+	$randomvalue = rand(10000, 99999 );
+	$savename = 'JID' . $jobid . $randomvalue . $name;
 
 /* 	echo "job id: " . $jobid;
 	echo "<br>";
